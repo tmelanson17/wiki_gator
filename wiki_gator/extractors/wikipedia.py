@@ -26,7 +26,7 @@ class WikipediaListExtractor(ListExtractor):
         """
         self.session = session or requests.Session()
         self.session.headers.update(
-            {"User-Agent": "WikiAnalyzer/1.0 (Educational/Research Tool)"}
+            {"User-Agent": "WikiGator/1.0 (Educational/Research Tool)"}
         )
 
     def extract(self, url: str, level: int) -> list[Section]:

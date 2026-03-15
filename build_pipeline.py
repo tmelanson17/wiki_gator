@@ -22,7 +22,7 @@ import anthropic
 # Paths
 # ---------------------------------------------------------------------------
 BASE_DIR = Path(__file__).parent
-WIKI_DIR = BASE_DIR / "wiki_analyzer"
+WIKI_DIR = BASE_DIR / "wiki_gator"
 MODELS_FILE = WIKI_DIR / "models.py"
 
 # ---------------------------------------------------------------------------
@@ -44,9 +44,9 @@ STAGES = [
         "example_file": WIKI_DIR / "extractors" / "wikipedia.py",
         "output_dir": WIKI_DIR / "extractors",
         "existing": {
-            "1": ("WikipediaListExtractor", "wiki_analyzer.extractors.wikipedia",
+            "1": ("WikipediaListExtractor", "wiki_gator.extractors.wikipedia",
                   "Parses Wikipedia 'List of' pages"),
-            "2": ("BulbapediaListExtractor", "wiki_analyzer.extractors.bulbapedia",
+            "2": ("BulbapediaListExtractor", "wiki_gator.extractors.bulbapedia",
                   "Parses Bulbapedia route/location pages (trainer parties)"),
         },
         "input_q": "Describe the DATA SOURCE — what page/URL are you scraping and how is it structured?",
@@ -66,9 +66,9 @@ STAGES = [
         "example_file": WIKI_DIR / "fetchers" / "bulbapedia.py",
         "output_dir": WIKI_DIR / "fetchers",
         "existing": {
-            "1": ("WikidataFetcher", "wiki_analyzer.fetchers.wikidata",
+            "1": ("WikidataFetcher", "wiki_gator.fetchers.wikidata",
                   "Resolves Wikipedia URLs → Wikidata entities → property values"),
-            "2": ("BulbapediaFetcher", "wiki_analyzer.fetchers.bulbapedia",
+            "2": ("BulbapediaFetcher", "wiki_gator.fetchers.bulbapedia",
                   "Parses trainer HTML and fetches base EXP from PokeAPI"),
         },
         "input_q": "Describe the ENTRY DATA available (e.g. .url to a wiki article, .html_content with raw HTML, .metadata dict).",
@@ -88,11 +88,11 @@ STAGES = [
         "example_file": WIKI_DIR / "transforms" / "exp_yield.py",
         "output_dir": WIKI_DIR / "transforms",
         "existing": {
-            "1": ("DateToAgeTransform", "wiki_analyzer.transforms.date_transforms",
+            "1": ("DateToAgeTransform", "wiki_gator.transforms.date_transforms",
                   "Wikidata date string → age in years"),
-            "2": ("ExpYieldTransform", "wiki_analyzer.transforms.exp_yield",
+            "2": ("ExpYieldTransform", "wiki_gator.transforms.exp_yield",
                   "List of Pokémon dicts → total EXP yield using (base_exp × level) / 7"),
-            "3": ("IdentityTransform", "wiki_analyzer.transforms.date_transforms",
+            "3": ("IdentityTransform", "wiki_gator.transforms.date_transforms",
                   "Numeric value → float (no-op)"),
         },
         "input_q": "Describe the RAW VALUE coming in — its type and structure (e.g. a date string, a list of dicts, a number).",
@@ -112,10 +112,10 @@ STAGES = [
         "example_file": WIKI_DIR / "aggregators" / "numeric.py",
         "output_dir": WIKI_DIR / "aggregators",
         "existing": {
-            "1": ("AverageAggregator", "wiki_analyzer.aggregators.numeric", "Arithmetic mean"),
-            "2": ("SumAggregator", "wiki_analyzer.aggregators.numeric", "Sum"),
-            "3": ("MinAggregator", "wiki_analyzer.aggregators.numeric", "Minimum"),
-            "4": ("MaxAggregator", "wiki_analyzer.aggregators.numeric", "Maximum"),
+            "1": ("AverageAggregator", "wiki_gator.aggregators.numeric", "Arithmetic mean"),
+            "2": ("SumAggregator", "wiki_gator.aggregators.numeric", "Sum"),
+            "3": ("MinAggregator", "wiki_gator.aggregators.numeric", "Minimum"),
+            "4": ("MaxAggregator", "wiki_gator.aggregators.numeric", "Maximum"),
         },
         "input_q": "Describe the LIST OF VALUES — what does each float represent?",
         "output_q": "Describe the AGGREGATION — how should the floats be combined (average, sum, max, …)?",
@@ -328,8 +328,8 @@ RUNNER_TEMPLATE = '''\
 """Generated pipeline runner — created by build_pipeline.py."""
 
 import sys
-from wiki_analyzer import WikiAnalyzer
-from wiki_analyzer.output.csv_writer import CSVWriter
+from wiki_gator import WikiGator
+from wiki_gator.output.csv_writer import CSVWriter
 from {extractor_module} import {extractor_class}
 from {fetcher_module} import {fetcher_class}
 from {transform_module} import {transform_class}
@@ -347,7 +347,7 @@ fetcher    = {fetcher_constructor}
 transform  = {transform_constructor}
 aggregator = {aggregator_constructor}
 
-analyzer = WikiAnalyzer(
+analyzer = WikiGator(
     extractor=extractor,
     fetcher=fetcher,
     transform=transform,

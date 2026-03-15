@@ -1,4 +1,4 @@
-"""Wiki Analyzer orchestrator."""
+"""WikiGator orchestrator."""
 
 from datetime import date
 from typing import Callable
@@ -10,7 +10,7 @@ from .models import Entry, Section, SectionResult
 from .transforms.base import Transform
 
 
-class WikiAnalyzer:
+class WikiGator:
     """Orchestrates the wiki analysis pipeline.
 
     Coordinates the extraction, fetching, transformation, and

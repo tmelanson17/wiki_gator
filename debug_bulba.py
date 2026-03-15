@@ -1,8 +1,8 @@
 """Test Bulbapedia extractor and data fetcher."""
 
-from wiki_analyzer.extractors import BulbapediaListExtractor
-from wiki_analyzer.fetchers.bulbapedia import BulbapediaFetcher
-from wiki_analyzer.transforms import ExpYieldTransform
+from wiki_gator.extractors import BulbapediaListExtractor
+from wiki_gator.fetchers.bulbapedia import BulbapediaFetcher
+from wiki_gator.transforms import ExpYieldTransform
 
 # Test with Generation I (which has partybox format)
 extractor = BulbapediaListExtractor(generation_filter="Generation I")

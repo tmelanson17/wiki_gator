@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""CLI entry point for Wiki Analyzer."""
+"""CLI entry point for WikiGator."""
 
 import argparse
 import sys
 
-from wiki_analyzer import WikiAnalyzer
-from wiki_analyzer.aggregators import AverageAggregator
-from wiki_analyzer.extractors import WikipediaListExtractor
-from wiki_analyzer.fetchers import WikidataFetcher
-from wiki_analyzer.output import CSVWriter
-from wiki_analyzer.transforms import DateToAgeTransform
+from wiki_gator import WikiGator
+from wiki_gator.aggregators import AverageAggregator
+from wiki_gator.extractors import WikipediaListExtractor
+from wiki_gator.fetchers import WikidataFetcher
+from wiki_gator.output import CSVWriter
+from wiki_gator.transforms import DateToAgeTransform
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -107,7 +107,7 @@ def main() -> int:
     args = parser.parse_args()
 
     if not args.quiet:
-        print(f"Wiki Analyzer")
+        print(f"WikiGator")
         print(f"=" * 40)
         print(f"URL: {args.url}")
         print(f"Section level: H{args.level}")
@@ -121,7 +121,7 @@ def main() -> int:
     aggregator = AverageAggregator()
 
     # Create analyzer
-    analyzer = WikiAnalyzer(
+    analyzer = WikiGator(
         extractor=extractor,
         fetcher=fetcher,
         transform=transform,

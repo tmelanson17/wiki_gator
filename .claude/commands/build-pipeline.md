@@ -27,18 +27,18 @@ Optional — pass a one-line description of the full pipeline to skip the intro 
 
 Before asking the user anything, read these files in parallel so you have full context:
 
-- `wiki_analyzer/models.py`
-- `wiki_analyzer/extractors/base.py`
-- `wiki_analyzer/fetchers/base.py`
-- `wiki_analyzer/transforms/base.py`
-- `wiki_analyzer/aggregators/base.py`
+- `wiki_gator/models.py`
+- `wiki_gator/extractors/base.py`
+- `wiki_gator/fetchers/base.py`
+- `wiki_gator/transforms/base.py`
+- `wiki_gator/aggregators/base.py`
 
 Also read one reference implementation per stage for style guidance:
 
-- `wiki_analyzer/extractors/wikipedia.py`
-- `wiki_analyzer/fetchers/bulbapedia.py`
-- `wiki_analyzer/transforms/exp_yield.py`
-- `wiki_analyzer/aggregators/numeric.py`
+- `wiki_gator/extractors/wikipedia.py`
+- `wiki_gator/fetchers/bulbapedia.py`
+- `wiki_gator/transforms/exp_yield.py`
+- `wiki_gator/aggregators/numeric.py`
 
 ### 1. Introduce the pipeline
 
@@ -78,10 +78,10 @@ Write the generated file to the appropriate directory:
 
 | Stage | Directory | Suggested filename |
 |---|---|---|
-| Extractor | `wiki_analyzer/extractors/` | `generated_<name>.py` |
-| Fetcher | `wiki_analyzer/fetchers/` | `generated_<name>.py` |
-| Transform | `wiki_analyzer/transforms/` | `generated_<name>.py` |
-| Aggregator | `wiki_analyzer/aggregators/` | `generated_<name>.py` |
+| Extractor | `wiki_gator/extractors/` | `generated_<name>.py` |
+| Fetcher | `wiki_gator/fetchers/` | `generated_<name>.py` |
+| Transform | `wiki_gator/transforms/` | `generated_<name>.py` |
+| Aggregator | `wiki_gator/aggregators/` | `generated_<name>.py` |
 
 Show the user the generated code and the saved file path.
 
@@ -90,8 +90,8 @@ Show the user the generated code and the saved file path.
 #### Extractor
 | Choice | Class | Module |
 |---|---|---|
-| 1 | `WikipediaListExtractor` | `wiki_analyzer.extractors.wikipedia` |
-| 2 | `BulbapediaListExtractor` | `wiki_analyzer.extractors.bulbapedia` |
+| 1 | `WikipediaListExtractor` | `wiki_gator.extractors.wikipedia` |
+| 2 | `BulbapediaListExtractor` | `wiki_gator.extractors.bulbapedia` |
 
 Input to describe: the source page URL structure
 Output to describe: how entries are grouped into sections (each entry has `.name`, `.url`,
@@ -100,8 +100,8 @@ Output to describe: how entries are grouped into sections (each entry has `.name
 #### Fetcher
 | Choice | Class | Module |
 |---|---|---|
-| 1 | `WikidataFetcher` | `wiki_analyzer.fetchers.wikidata` |
-| 2 | `BulbapediaFetcher` | `wiki_analyzer.fetchers.bulbapedia` |
+| 1 | `WikidataFetcher` | `wiki_gator.fetchers.wikidata` |
+| 2 | `BulbapediaFetcher` | `wiki_gator.fetchers.bulbapedia` |
 
 Input to describe: what data is available on each `Entry` object
 Output to describe: the raw value stored on `entry.raw_value` (can be any type — a date
@@ -110,9 +110,9 @@ string, a list of dicts, a number, raw HTML)
 #### Transform
 | Choice | Class | Module |
 |---|---|---|
-| 1 | `DateToAgeTransform` | `wiki_analyzer.transforms.date_transforms` |
-| 2 | `ExpYieldTransform` | `wiki_analyzer.transforms.exp_yield` |
-| 3 | `IdentityTransform` | `wiki_analyzer.transforms.date_transforms` |
+| 1 | `DateToAgeTransform` | `wiki_gator.transforms.date_transforms` |
+| 2 | `ExpYieldTransform` | `wiki_gator.transforms.exp_yield` |
+| 3 | `IdentityTransform` | `wiki_gator.transforms.date_transforms` |
 
 Input to describe: the raw value format
 Output to describe: the `float` it should produce (e.g. age in years, total EXP, raw number)
@@ -120,10 +120,10 @@ Output to describe: the `float` it should produce (e.g. age in years, total EXP,
 #### Aggregator
 | Choice | Class | Module |
 |---|---|---|
-| 1 | `AverageAggregator` | `wiki_analyzer.aggregators.numeric` |
-| 2 | `SumAggregator` | `wiki_analyzer.aggregators.numeric` |
-| 3 | `MinAggregator` | `wiki_analyzer.aggregators.numeric` |
-| 4 | `MaxAggregator` | `wiki_analyzer.aggregators.numeric` |
+| 1 | `AverageAggregator` | `wiki_gator.aggregators.numeric` |
+| 2 | `SumAggregator` | `wiki_gator.aggregators.numeric` |
+| 3 | `MinAggregator` | `wiki_gator.aggregators.numeric` |
+| 4 | `MaxAggregator` | `wiki_gator.aggregators.numeric` |
 
 Input to describe: what each float represents in context
 Output to describe: how to combine them (mean, sum, min, max, median, …)
@@ -147,8 +147,8 @@ Generate a Python script at `<runner_name>` that:
 #!/usr/bin/env python3
 """Generated pipeline runner."""
 import sys
-from wiki_analyzer import WikiAnalyzer
-from wiki_analyzer.output.csv_writer import CSVWriter
+from wiki_gator import WikiGator
+from wiki_gator.output.csv_writer import CSVWriter
 from <extractor_module> import <ExtractorClass>
 from <fetcher_module> import <FetcherClass>
 from <transform_module> import <TransformClass>
@@ -159,7 +159,7 @@ fetcher    = <FetcherClass>()
 transform  = <TransformClass>()
 aggregator = <AggregatorClass>()
 
-analyzer = WikiAnalyzer(
+analyzer = WikiGator(
     extractor=extractor,
     fetcher=fetcher,
     transform=transform,
@@ -197,5 +197,5 @@ python <runner_name>
 - If a generated class needs constructor arguments (e.g. `generation_filter`), add a comment
   in the runner: `# TODO: set constructor args`.
 - `CSVWriter` accepts a `value_label` kwarg (added in this session) — always pass it.
-- The `WikiAnalyzer` orchestrator in `wiki_analyzer/analyzer.py` handles the full
+- The `WikiGator` orchestrator in `wiki_gator/analyzer.py` handles the full
   Extractor → Fetcher → Transform → Aggregator wiring; the runner just instantiates it.

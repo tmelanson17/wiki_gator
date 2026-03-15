@@ -28,7 +28,7 @@ class WikidataFetcher(DataFetcher):
         """
         self.session = session or requests.Session()
         self.session.headers.update(
-            {"User-Agent": "WikiAnalyzer/1.0 (Educational/Research Tool)"}
+            {"User-Agent": "WikiGator/1.0 (Educational/Research Tool)"}
         )
         # Cache for Wikipedia title -> Wikidata ID mapping
         self._entity_cache: dict[str, str | None] = {}

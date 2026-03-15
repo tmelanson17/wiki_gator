@@ -1,4 +1,4 @@
-# Wiki Age Analyzer
+# WikiGator
 
 A command-line tool that scrapes Wikipedia "List of" pages, looks up each person's birth and death dates via Wikidata, and computes the **average age** per section (grouped by heading level).
 
