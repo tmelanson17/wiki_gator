@@ -36,8 +36,8 @@ Before asking the user anything, read these files in parallel so you have full c
 Also read one reference implementation per stage for style guidance:
 
 - `wiki_gator/extractors/wikipedia.py`
-- `wiki_gator/fetchers/bulbapedia.py`
-- `wiki_gator/transforms/exp_yield.py`
+- `wiki_gator/fetchers/wikidata.py`
+- `wiki_gator/transforms/date_transforms.py`
 - `wiki_gator/aggregators/numeric.py`
 
 ### 1. Introduce the pipeline
@@ -91,7 +91,6 @@ Show the user the generated code and the saved file path.
 | Choice | Class | Module |
 |---|---|---|
 | 1 | `WikipediaListExtractor` | `wiki_gator.extractors.wikipedia` |
-| 2 | `BulbapediaListExtractor` | `wiki_gator.extractors.bulbapedia` |
 
 Input to describe: the source page URL structure
 Output to describe: how entries are grouped into sections (each entry has `.name`, `.url`,
@@ -101,7 +100,6 @@ Output to describe: how entries are grouped into sections (each entry has `.name
 | Choice | Class | Module |
 |---|---|---|
 | 1 | `WikidataFetcher` | `wiki_gator.fetchers.wikidata` |
-| 2 | `BulbapediaFetcher` | `wiki_gator.fetchers.bulbapedia` |
 
 Input to describe: what data is available on each `Entry` object
 Output to describe: the raw value stored on `entry.raw_value` (can be any type — a date
@@ -111,8 +109,7 @@ string, a list of dicts, a number, raw HTML)
 | Choice | Class | Module |
 |---|---|---|
 | 1 | `DateToAgeTransform` | `wiki_gator.transforms.date_transforms` |
-| 2 | `ExpYieldTransform` | `wiki_gator.transforms.exp_yield` |
-| 3 | `IdentityTransform` | `wiki_gator.transforms.date_transforms` |
+| 2 | `IdentityTransform` | `wiki_gator.transforms.date_transforms` |
 
 Input to describe: the raw value format
 Output to describe: the `float` it should produce (e.g. age in years, total EXP, raw number)

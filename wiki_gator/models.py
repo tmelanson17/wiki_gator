@@ -8,15 +8,11 @@ from typing import Any
 class Entry:
     """A single entry extracted from a wiki list.
 
-    Supports both URL-based entries (e.g., Wikipedia articles) and
-    HTML-based entries (e.g., embedded trainer data on Bulbapedia).
-
     Attributes:
         name: Display name of the entry.
         url: Optional URL to the entry's wiki page.
-        html_content: Optional HTML string for embedded entries.
-        metadata: Optional dict for additional entry-specific data
-                 (e.g., Pokemon levels, trainer class).
+        html_content: Optional HTML string for inline/embedded entries.
+        metadata: Optional dict for additional entry-specific data.
         raw_value: The raw attribute value fetched from the data source.
         computed_value: The transformed numeric value (for aggregation).
     """

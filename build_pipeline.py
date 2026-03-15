@@ -46,8 +46,6 @@ STAGES = [
         "existing": {
             "1": ("WikipediaListExtractor", "wiki_gator.extractors.wikipedia",
                   "Parses Wikipedia 'List of' pages"),
-            "2": ("BulbapediaListExtractor", "wiki_gator.extractors.bulbapedia",
-                  "Parses Bulbapedia route/location pages (trainer parties)"),
         },
         "input_q": "Describe the DATA SOURCE — what page/URL are you scraping and how is it structured?",
         "output_q": "Describe the ENTRIES — how are they grouped into sections, and what data does each entry carry?",
@@ -68,8 +66,6 @@ STAGES = [
         "existing": {
             "1": ("WikidataFetcher", "wiki_gator.fetchers.wikidata",
                   "Resolves Wikipedia URLs → Wikidata entities → property values"),
-            "2": ("BulbapediaFetcher", "wiki_gator.fetchers.bulbapedia",
-                  "Parses trainer HTML and fetches base EXP from PokeAPI"),
         },
         "input_q": "Describe the ENTRY DATA available (e.g. .url to a wiki article, .html_content with raw HTML, .metadata dict).",
         "output_q": "Describe the RAW VALUE to return — what data should be fetched or extracted for each entry?",
@@ -90,9 +86,7 @@ STAGES = [
         "existing": {
             "1": ("DateToAgeTransform", "wiki_gator.transforms.date_transforms",
                   "Wikidata date string → age in years"),
-            "2": ("ExpYieldTransform", "wiki_gator.transforms.exp_yield",
-                  "List of Pokémon dicts → total EXP yield using (base_exp × level) / 7"),
-            "3": ("IdentityTransform", "wiki_gator.transforms.date_transforms",
+            "2": ("IdentityTransform", "wiki_gator.transforms.date_transforms",
                   "Numeric value → float (no-op)"),
         },
         "input_q": "Describe the RAW VALUE coming in — its type and structure (e.g. a date string, a list of dicts, a number).",
